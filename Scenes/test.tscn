@@ -1,0 +1,15 @@
+[gd_scene format=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 9.0
+margin_top = 289.0
+margin_right = 368.0
+margin_bottom = 360.0
+text = "Swords Are Not Stackable But Algo Makes Them Stackable
+Chards are Stackable 
+Health Potions are Stackable "
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 512, 291 )

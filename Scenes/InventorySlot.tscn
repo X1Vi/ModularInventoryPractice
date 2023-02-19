@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/InventorySlot.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 20.5, 20 )
+
+[node name="InventorySlot" type="Button"]
+pause_mode = 2
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_constants/hseparation = 0
+script = ExtResource( 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+expand = true
+
+[node name="Area2D" type="Area2D" parent="TextureRect"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TextureRect/Area2D"]
+position = Vector2( 19.5, 20 )
+shape = SubResource( 1 )
+
+[node name="QuantityText" type="RichTextLabel" parent="."]
+margin_right = 39.0
+margin_bottom = 15.0
+
+[connection signal="button_down" from="." to="." method="_on_InventorySlot_button_down"]
+[connection signal="button_up" from="." to="." method="_on_InventorySlot_button_up"]
+[connection signal="pressed" from="." to="." method="_on_InventorySlot_pressed"]

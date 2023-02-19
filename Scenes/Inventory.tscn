@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Inventory.gd" type="Script" id=1]
+
+[node name="Inventory" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -485.0
+margin_top = -299.5
+margin_right = 485.0
+margin_bottom = 299.5
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+
+[node name="VScrollBar" type="HScrollBar" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -200.0
+margin_right = 100.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="VScrollBar"]
+margin_left = 14.0
+margin_right = 202.0
+margin_bottom = 401.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = -120
+columns = 4
+
+[node name="GenerateRandomItems" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -75.0
+margin_top = 214.0
+margin_right = 86.0
+margin_bottom = 248.0
+text = "GenerateRandomItems"
+
+[node name="mouseTextureRect" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 3, 3 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="pressed" from="GenerateRandomItems" to="." method="_on_GenerateRandomItems_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
