@@ -18,9 +18,22 @@ config/icon="res://icon.png"
 
 Inventory="*res://Scenes/Inventory.tscn"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/test_width=1920
+window/size/test_height=1080
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [physics]
 

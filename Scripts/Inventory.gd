@@ -1,9 +1,14 @@
 extends Control
 
+# saves
+var save_path = "res://save/inventory.json"
+var inventory_save :Array  = []
+
 
 #imports
 var random = RandomNumberGenerator.new()
 onready var mouseTextureRect : TextureRect = $mouseTextureRect
+onready var mouseQuantityText : RichTextLabel = $mouseTextureRect/mouseItemCount
 
 # for shifting from one slot to another
 var mouseHolding : bool
@@ -14,6 +19,9 @@ var mouseitemName : String
 var mouseslotID : int
 var holdingAItem : bool
 
+# rearranging
+var reArrangedItems = {		}	
+var checkReArrangedItems = {}
 
 
 # for assembling inventory slots
@@ -59,11 +67,26 @@ func _ready():
 		t_inventorySlot.slotID = forMarkingEachSlotID
 		gridContainer.add_child(t_inventorySlot)
 		forMarkingEachSlotID += 1
+	loadTheSaveInventory()
+	
 		
-
+func loadTheSaveInventory():
+	load_from_file()
+	if inventory_save.size() > 0:		
+		var slots  = gridContainer.get_children()
+		var index = 0
+		print(inventory_save.size())
+		for slot in slots:
+			if index < inventory_save.size():
+				slot.itemName = inventory_save[index].itemName
+				slot.itemTexture = inventory_save[index].itemTexture
+				slot.itemQuantity = inventory_save[index].itemQuantity
+				slot.isStackable = inventory_save[index].isStackable
+				index = index + 1	
+	
+	
 func _physics_process(delta):
-	print(get_global_mouse_position())
-	print(get_local_mouse_position())
+	printMouseQuantity()
 	mouseTextureFollowMouse()
 	switchMouseTexture()
 
@@ -117,3 +140,96 @@ func printMouseInventory():
 
 func _on_Timer_timeout():
 	printMouseInventory()
+
+
+func save_to_file():
+	var file = File.new()
+	file.open(save_path, File.WRITE)
+	file.store_string(to_json(inventory_save))
+	file.close()
+
+func load_from_file():
+	var file = File.new()
+	if file.file_exists(save_path):
+		file.open(save_path, File.READ)
+		var json_string = file.get_as_text()
+		inventory_save = parse_json(json_string)
+		file.close()
+
+
+func _on_save_button_pressed():
+	var slots = gridContainer.get_children()
+	inventory_save = []  # clear the inventory_save array before adding new items
+	for slot in slots:
+		var item_data = {
+			"slotID" : slot.slotID,
+			"itemTexture" : slot.itemTexture,
+			"itemQuantity" : slot.itemQuantity,
+			"isStackable":  slot.isStackable,
+			"itemName" : slot.itemName
+		}
+		inventory_save.append(item_data)
+	save_to_file()
+	print(inventory_save)
+	
+	
+	
+
+
+func _on_re_arrange_pressed():
+		var get_items = {
+			
+		}
+		
+		var slots = gridContainer.get_children()
+		for slot in slots:
+			if get_items.has(slot.itemName) == false:
+				get_items[slot.itemName] = {
+					"itemName" : slot.itemName,
+					"itemQuantity" : slot.itemQuantity,
+					"itemTexture" : slot.itemTexture,
+					"isStackable" : slot.isStackable	
+				}
+			elif get_items.has(slot.itemName) == true and slot.isStackable == true:
+				get_items[slot.itemName].itemQuantity += slot.itemQuantity
+			else:
+				get_items[str(slot.itemName) + " " + str(slot.slotID)] = {
+					"itemName" : slot.itemName,
+					"itemQuantity" : slot.itemQuantity,
+					"itemTexture" : slot.itemTexture,
+					"isStackable" : slot.isStackable
+				}
+				
+		for slot in slots:
+			slot.itemName = ""
+			slot.itemQuantity = 0
+			slot.itemTexture = ""
+			slot.isStackable = false
+		
+		var index : int = 0
+		for itemKeys in get_items:
+			slots[index].itemName = get_items[itemKeys].itemName
+			slots[index].itemQuantity = get_items[itemKeys].itemQuantity
+			slots[index].itemTexture = get_items[itemKeys].itemTexture
+			slots[index].isStackable = get_items[itemKeys].isStackable
+			index = index + 1
+		print(get_items)
+		
+	
+			
+		
+		
+	  
+
+func _on_load_pressed():
+	loadTheSaveInventory()
+	
+func printMouseQuantity():
+	if mouseitemQuantity > 0:
+		mouseQuantityText.text = str(mouseitemQuantity)
+	else:
+		mouseQuantityText.text = ""
+
+func _on_slot_pressed(inventorySlotslotID, inventorySlotitemTexture, inventorySlotitemQuantity, inventorySlotitemName, inventorySlotisStackable):
+	print("Working")
+	print("inventorySlotID " + str(inventorySlotslotID) )

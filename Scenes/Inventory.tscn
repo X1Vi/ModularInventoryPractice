@@ -8,9 +8,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -485.0
-margin_top = -299.5
+margin_top = -290.0
 margin_right = 485.0
-margin_bottom = 299.5
+margin_bottom = 309.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
@@ -20,12 +20,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -100.0
-margin_top = -200.0
-margin_right = 100.0
-margin_bottom = 200.0
+margin_left = -85.0
+margin_top = -169.5
+margin_right = 115.0
+margin_bottom = 230.5
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_step = 1.0
 
 [node name="GridContainer" type="GridContainer" parent="VScrollBar"]
 margin_left = 14.0
@@ -41,10 +42,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -75.0
-margin_top = 214.0
-margin_right = 86.0
-margin_bottom = 248.0
+margin_left = 118.0
+margin_top = -38.0
+margin_right = 279.0
+margin_bottom = -4.0
 text = "GenerateRandomItems"
 
 [node name="mouseTextureRect" type="TextureRect" parent="."]
@@ -52,9 +53,57 @@ margin_right = 40.0
 margin_bottom = 40.0
 rect_scale = Vector2( 3, 3 )
 
+[node name="mouseItemCount" type="RichTextLabel" parent="mouseTextureRect"]
+margin_right = 18.0
+margin_bottom = 17.0
+rect_scale = Vector2( 0.5, 0.5 )
+tab_size = 1
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
 autostart = true
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 514, 339.5 )
+current = true
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="save_button" type="Button" parent="."]
+anchor_left = 0.642
+anchor_top = 0.5
+anchor_right = 0.642
+anchor_bottom = 0.5
+margin_left = -8.73999
+margin_top = 4.5
+margin_right = 91.26
+margin_bottom = 36.5
+text = "save_button"
+
+[node name="re_arrange" type="Button" parent="."]
+margin_left = 613.0
+margin_top = 342.0
+margin_right = 713.0
+margin_bottom = 372.0
+text = "Arrange"
+
+[node name="load" type="Button" parent="."]
+margin_left = 613.0
+margin_top = 382.0
+margin_right = 713.0
+margin_bottom = 402.0
+text = "Load"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 609.0
+margin_top = 414.0
+margin_right = 736.0
+margin_bottom = 596.0
+text = "save_button does not work in WEB
+Swords are not stackable
+"
+
 [connection signal="pressed" from="GenerateRandomItems" to="." method="_on_GenerateRandomItems_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="pressed" from="save_button" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="re_arrange" to="." method="_on_re_arrange_pressed"]
+[connection signal="pressed" from="load" to="." method="_on_load_pressed"]

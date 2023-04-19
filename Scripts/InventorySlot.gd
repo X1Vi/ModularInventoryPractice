@@ -18,6 +18,8 @@ func _physics_process(delta):
 	quantityText.text = str(itemQuantity)
 
 func _on_InventorySlot_pressed():
+	emit_signal("transferSlotToMouse", slotID, itemTexture, itemQuantity,itemName, isStackable)
+	print(slotID)
 	
 	if Inventory.mouseHolding == true and Inventory.mouseitemQuantity >= 1 and (Inventory.mouseitemName == itemName or itemName == ""):
 		if Inventory.mouseitemName == itemName and isStackable == true:
@@ -75,3 +77,4 @@ func _on_InventorySlot_button_down():
 
 func _on_InventorySlot_button_up():
 	pass
+
